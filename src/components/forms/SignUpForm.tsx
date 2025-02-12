@@ -4,6 +4,8 @@ import { TSignUpSchema, signUpSchema } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function SignUpForm() {
   const {
@@ -16,51 +18,42 @@ export default function SignUpForm() {
   });
 
   const onSubmit = async (data: TSignUpSchema) => {
-    // TODO: submit to server
-    // ...
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
     reset();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register("name")}
-        type="text"
-        placeholder="Name"
-      />
-      {errors.name && <p>{errors.name.message}</p>}
+    <div className="flex flex-col items-center justify-start h-screen bg-white pt-20">
+      <div className="w-full max-w-xl bg-white py-12 px-10 rounded-lg shadow-2xl">
+        <h2 className="text-4xl font-bold text-center text-gray-900 mb-8">Sign Up</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <Input {...register("name")} placeholder="Name" />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+          </div>
 
-      <input
-        {...register("email")}
-        type="email"
-        placeholder="Email"
-      />
-      {errors.email && <p>{errors.email.message}</p>}
+          <div>
+            <Input {...register("email")} type="email" placeholder="Email" />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          </div>
 
-      <input
-        {...register("password")}
-        type="password"
-        placeholder="Password"
-      />
-      {errors.password && <p>{errors.password.message}</p>}
+          <div>
+            <Input {...register("password")} type="password" placeholder="Password" />
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          </div>
 
-      <input
-        {...register("confirmPassword")}
-        type="password"
-        placeholder="Confirm password"
-      />
-      {errors.confirmPassword && (
-        <p>{errors.confirmPassword.message}</p>
-      )}
+          <div>
+            <Input {...register("confirmPassword")} type="password" placeholder="Confirm Password" />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+            )}
+          </div>
 
-      <button
-        disabled={isSubmitting}
-        type="submit"
-      >
-        Register
-      </button>
-    </form>
+          <Button type="submit" disabled={isSubmitting} className="w-full h-12 text-lg">
+            {isSubmitting ? "Signing Up..." : "Sign Up"}
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 }
